@@ -3,11 +3,11 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-# Add here ssid and password
+// Add here ssid and password
 const char* ssid = "<ip>";
 const char* password = "<pwd>";
 
-# Add here broker ip, port, username and password
+// Add here broker ip, port, username and password
 const char* mqttServer = "<ip>";
 const int mqttPort = 1883;
 const char* mqttUser = "<usrname>";
