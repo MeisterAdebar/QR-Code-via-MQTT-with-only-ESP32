@@ -4,7 +4,7 @@
 #include <PubSubClient.h>
 
 // Add here ssid and password
-const char* ssid = "<ip>";
+const char* ssid = "<ssid>";
 const char* password = "<pwd>";
 
 // Add here broker ip, port, username and password
@@ -37,6 +37,9 @@ void onQrCodeTask(void *pvParameters)
         Serial.print("Payload: ");
         Serial.println((const char *)qrCodeData.payload);
         client.publish("house/qrcode", (const char *)qrCodeData.payload);
+        digitalWrite(12, HIGH); // turn the green LED on
+        delay(2000);             // wait for 500 milliseconds
+        digitalWrite(12, LOW);  // turn the green LED off
       }
       else
       {
@@ -52,6 +55,7 @@ void setup()
 {
   Serial.begin(115200);
   WiFi.begin(ssid, password);
+  pinMode(12, OUTPUT); // configure pin to digital output
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
