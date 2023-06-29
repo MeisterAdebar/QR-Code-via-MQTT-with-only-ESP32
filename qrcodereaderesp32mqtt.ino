@@ -57,7 +57,7 @@ void onQrCodeTask(void *pvParameters)
         pixels.show();
       }
     }
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+    vTaskDelay(50 / portTICK_PERIOD_MS);
   }
 }
 
