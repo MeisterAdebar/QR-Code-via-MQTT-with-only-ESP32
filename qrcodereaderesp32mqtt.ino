@@ -2,6 +2,9 @@
 #include <ESP32QRCodeReader.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <Adafruit_NeoPixel.h>
+#define NUM_PIXELS 1
+#define PIN 2
 
 // Add here ssid and password
 const char* ssid = "<ssid>";
@@ -37,17 +40,21 @@ void onQrCodeTask(void *pvParameters)
         Serial.print("Payload: ");
         Serial.println((const char *)qrCodeData.payload);
         client.publish("house/qrcode", (const char *)qrCodeData.payload);
-        digitalWrite(12, HIGH); // turn the green LED on
+        pixels.setPixelColor(0, pixels.Color(0, 150, 0));  //green
+        pixels.show();
         delay(2000);             // wait for 2000 milliseconds
-        digitalWrite(12, LOW);  // turn the green LED off
+        pixels.clear();
+        pixels.show();
       }
       else
       {
         Serial.print("Invalid: ");
         Serial.println((const char *)qrCodeData.payload);
-        digitalWrite(2, HIGH); // turn the red LED on
-        delay(200);             // wait for 200 milliseconds
-        digitalWrite(2, LOW);  // turn the red LED off
+        pixels.setPixelColor(0, pixels.Color(150, 0, 0));  //red
+        pixels.show();
+        delay(200);             // wait for 2000 milliseconds
+        pixels.clear();
+        pixels.show();
       }
     }
     vTaskDelay(100 / portTICK_PERIOD_MS);
@@ -58,7 +65,7 @@ void setup()
 {
   Serial.begin(115200);
   WiFi.begin(ssid, password);
-  pinMode(12, OUTPUT); // configure pin to digital output
+  pixels.begin();
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
