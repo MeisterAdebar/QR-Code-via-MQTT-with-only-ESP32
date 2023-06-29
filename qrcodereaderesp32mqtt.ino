@@ -38,13 +38,16 @@ void onQrCodeTask(void *pvParameters)
         Serial.println((const char *)qrCodeData.payload);
         client.publish("house/qrcode", (const char *)qrCodeData.payload);
         digitalWrite(12, HIGH); // turn the green LED on
-        delay(2000);             // wait for 500 milliseconds
+        delay(2000);             // wait for 2000 milliseconds
         digitalWrite(12, LOW);  // turn the green LED off
       }
       else
       {
         Serial.print("Invalid: ");
         Serial.println((const char *)qrCodeData.payload);
+        digitalWrite(2, HIGH); // turn the red LED on
+        delay(200);             // wait for 200 milliseconds
+        digitalWrite(2, LOW);  // turn the red LED off
       }
     }
     vTaskDelay(100 / portTICK_PERIOD_MS);
