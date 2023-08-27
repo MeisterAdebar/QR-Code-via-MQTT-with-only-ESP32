@@ -4,4 +4,4 @@ Based on: https://www.makeuseof.com/scanning-qr-codes-with-esp32-cam
 
 Used lib: https://github.com/alvarowolfx/ESP32QRCodeReader
 
-ToDo: add mqtt reconnect
+ToDo: add wifi reconnect
