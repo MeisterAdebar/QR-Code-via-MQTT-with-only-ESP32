@@ -26,7 +26,7 @@ const char* mqttPassword = "pwd";
 
 // MQTT LWT
 byte willQoS = 0;
-const char* willTopic = "house/LWT";
+const char* willTopic = "house/lwt";
 const char* willMessage = "offline";
 boolean willRetain = false;
 
