@@ -4,25 +4,22 @@
 #include <WiFiClient.h>
 #include <PubSubClient.h>
 #include <Adafruit_NeoPixel.h>
+#define MQTT_KEEPALIVE 60
 
-// WS2812B
-#define NUM_PIXELS 1
-#define PIN 2
+// Add here wifi credentials
+const char* ssid        = <ssid>;
+const char* password    = <pwd>;
 
-// MQTT Topics
-#define TOPIC_IN  "house/in"
-#define TOPIC_LWT "house/lwt"
-#define TOPIC_QRCODE "house/qrcode"
-
-// WiFi
-const char* ssid        = "<ssid>";
-const char* password    = "<pwd>";
-
-// MQTT
+// Add here mqtt ip und credentials
 const char* mqtt_server = "<ip>";
 const int mqttPort = 1883;
 const char* mqttUser = "usrname";
-const char* mqttPassword = "pwd";
+const char* mqttPassword = <pwd>;
+
+// Change MQTT Topics to your needs
+#define TOPIC_IN  "house/in"
+#define TOPIC_LWT "house/lwt"
+#define TOPIC_QRCODE "house/qrcode"
 
 // MQTT LWT
 byte willQoS = 0;
@@ -30,6 +27,9 @@ const char* willTopic = "house/lwt";
 const char* willMessage = "offline";
 boolean willRetain = false;
 
+// WS2812B
+#define NUM_PIXELS 1
+#define PIN 2
 
 ESP32QRCodeReader reader(CAMERA_MODEL_AI_THINKER);
 
@@ -138,6 +138,7 @@ void onQrCodeTask(void *pvParameters)
 void setup() {
   Serial.begin(115200);
   setup_wifi();
+  client.setKeepAlive(MQTT_KEEPALIVE);
   pixels.begin();
     Serial.println();
 
@@ -159,10 +160,4 @@ void loop() {
   client.loop();
 
   delay(100);
-}
-
-void loop()
-{
-  client.loop();
-  
 }
