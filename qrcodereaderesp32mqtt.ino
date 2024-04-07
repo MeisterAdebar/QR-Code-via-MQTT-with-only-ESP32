@@ -4,6 +4,12 @@
 #include <WiFiClient.h>
 #include <PubSubClient.h>
 #include <Adafruit_NeoPixel.h>
+
+// OTA
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <AsyncElegantOTA.h>
+
 #define MQTT_KEEPALIVE 60
 
 // Add here wifi credentials
@@ -32,6 +38,9 @@ boolean willRetain = false;
 #define PIN 2
 
 ESP32QRCodeReader reader(CAMERA_MODEL_AI_THINKER);
+
+// OTA
+AsyncWebServer server(80);
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
@@ -149,8 +158,13 @@ void setup() {
   reader.beginOnCore(1);
 
   Serial.println("Begin on Core 1");
-
+  
   xTaskCreate(onQrCodeTask, "onQrCode", 4 * 1024, NULL, 4, NULL);
+  
+// OTA 
+  AsyncElegantOTA.begin(&server);    // Start AsyncElegantOTA
+  server.begin();
+  Serial.println("HTTP server started");
 }
 
 void loop() {
